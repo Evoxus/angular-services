@@ -28,6 +28,41 @@ module.exports = __webpack_require__(/*! /Users/michael/Desktop/code/pluralsight
 
 /***/ }),
 
+/***/ "1US8":
+/*!************************************************************!*\
+  !*** ./src/app/core/book-tracker-error-handler.service.ts ***!
+  \************************************************************/
+/*! exports provided: BookTrackerErrorHandlerService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BookTrackerErrorHandlerService", function() { return BookTrackerErrorHandlerService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "8Y7J");
+/* harmony import */ var app_models_bookTrackerError__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/models/bookTrackerError */ "+5Uy");
+
+
+
+let BookTrackerErrorHandlerService = class BookTrackerErrorHandlerService {
+    constructor() { }
+    handleError(error) {
+        let customError = new app_models_bookTrackerError__WEBPACK_IMPORTED_MODULE_2__["BookTrackerError"]();
+        customError.errorNumber = 200;
+        customError.message = error.message;
+        customError.friendlyMessage = 'An error occurred. Please try again later.';
+        console.log(customError);
+    }
+};
+BookTrackerErrorHandlerService.ctorParameters = () => [];
+BookTrackerErrorHandlerService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])()
+], BookTrackerErrorHandlerService);
+
+
+
+/***/ }),
+
 /***/ "2y6B":
 /*!****************************************************************************************!*\
   !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/add-book/add-book.component.html ***!
@@ -355,17 +390,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
 /* harmony import */ var _raw_loader_dashboard_component_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! raw-loader!./dashboard.component.html */ "H/d9");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "8Y7J");
-/* harmony import */ var app_core_logger_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/core/logger.service */ "fSl4");
-/* harmony import */ var app_core_data_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/core/data.service */ "QVKM");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "cUpR");
+/* harmony import */ var app_core_logger_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/core/logger.service */ "fSl4");
+/* harmony import */ var app_core_data_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/core/data.service */ "QVKM");
+
 
 
 
 
 
 let DashboardComponent = class DashboardComponent {
-    constructor(loggerService, dataService) {
+    constructor(loggerService, dataService, title) {
         this.loggerService = loggerService;
         this.dataService = dataService;
+        this.title = title;
         // this.loggerService.log('Dashboard created!')
     }
     ngOnInit() {
@@ -373,7 +411,9 @@ let DashboardComponent = class DashboardComponent {
         this.dataService.getAllReaders().subscribe((data) => this.allReaders = data, (err) => this.loggerService.log(err.friendlyMessage), () => this.loggerService.log('All done getting readers!'));
         this.mostPopularBook = this.dataService.mostPopularBook;
         this.getAuthorRecommendationAsync(1);
+        this.title.setTitle(`Book Tracker ${_angular_core__WEBPACK_IMPORTED_MODULE_2__["VERSION"].full}`);
         this.loggerService.log('Done with dashboard initialization.');
+        throw new Error('Some shit went wrong!');
     }
     getAuthorRecommendationAsync(readerID) {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
@@ -394,8 +434,9 @@ let DashboardComponent = class DashboardComponent {
     }
 };
 DashboardComponent.ctorParameters = () => [
-    { type: app_core_logger_service__WEBPACK_IMPORTED_MODULE_3__["LoggerService"] },
-    { type: app_core_data_service__WEBPACK_IMPORTED_MODULE_4__["DataService"] }
+    { type: app_core_logger_service__WEBPACK_IMPORTED_MODULE_4__["LoggerService"] },
+    { type: app_core_data_service__WEBPACK_IMPORTED_MODULE_5__["DataService"] },
+    { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__["Title"] }
 ];
 DashboardComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
@@ -516,6 +557,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dashboard_dashboard_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dashboard/dashboard.component */ "QX6l");
 /* harmony import */ var _edit_book_edit_book_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./edit-book/edit-book.component */ "C9lS");
 /* harmony import */ var _edit_reader_edit_reader_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./edit-reader/edit-reader.component */ "dkrA");
+/* harmony import */ var _core_book_tracker_error_handler_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/book-tracker-error-handler.service */ "1US8");
+
 
 
 
@@ -547,12 +590,13 @@ AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
             _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"]
         ],
         providers: [
-        // { provide: LoggerService, useClass: PlainLoggerService },
-        // { provide: LoggerService, useValue: {
-        //   log: (message: string) => console.log(`MESSAGE ${message}),
-        //   error: (message: string) => console.error(`PROBLEM ${message})
-        // }},
-        // { provide: DataService, useFactory: dataServiceFactory, deps: [LoggerService] }
+            { provide: _angular_core__WEBPACK_IMPORTED_MODULE_2__["ErrorHandler"], useClass: _core_book_tracker_error_handler_service__WEBPACK_IMPORTED_MODULE_12__["BookTrackerErrorHandlerService"] }
+            // { provide: LoggerService, useClass: PlainLoggerService },
+            // { provide: LoggerService, useValue: {
+            //   log: (message: string) => console.log(`MESSAGE ${message}),
+            //   error: (message: string) => console.error(`PROBLEM ${message})
+            // }},
+            // { provide: DataService, useFactory: dataServiceFactory, deps: [LoggerService] }
         ],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
     })

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, Version, VERSION } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Book } from "app/models/book";
 import { Reader } from "app/models/reader";
 import { LoggerService } from 'app/core/logger.service';
@@ -18,7 +18,8 @@ export class DashboardComponent implements OnInit {
   mostPopularBook: Book;
 
   constructor(private loggerService: LoggerService,
-              private dataService: DataService) {
+              private dataService: DataService,
+              private title: Title) {
     // this.loggerService.log('Dashboard created!')
   }
 
@@ -33,7 +34,11 @@ export class DashboardComponent implements OnInit {
 
     this.getAuthorRecommendationAsync(1);
 
+    this.title.setTitle(`Book Tracker ${VERSION.full}`)
+
     this.loggerService.log('Done with dashboard initialization.');
+
+    throw new Error('Some shit went wrong!')
   }
 
   private async getAuthorRecommendationAsync(readerID: number): Promise<void> {
